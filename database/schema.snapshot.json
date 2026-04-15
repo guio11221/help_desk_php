@@ -1,0 +1,222 @@
+{
+    "extensions": [
+        "pgcrypto"
+    ],
+    "tables": {
+        "categories": {
+            "columns": {
+                "active": {
+                    "type": "BOOLEAN",
+                    "default": "TRUE"
+                },
+                "created_at": {
+                    "type": "TIMESTAMP",
+                    "default": "NOW()"
+                },
+                "id": {
+                    "type": "BIGSERIAL",
+                    "primary": true
+                },
+                "name": {
+                    "type": "VARCHAR(120)",
+                    "unique": true
+                },
+                "updated_at": {
+                    "type": "TIMESTAMP",
+                    "default": "NOW()"
+                }
+            },
+            "indexes": []
+        },
+        "ticket_comments": {
+            "columns": {
+                "author_id": {
+                    "type": "BIGINT",
+                    "references": {
+                        "table": "users",
+                        "column": "id"
+                    },
+                    "on_delete": "RESTRICT"
+                },
+                "body": {
+                    "type": "TEXT"
+                },
+                "created_at": {
+                    "type": "TIMESTAMP",
+                    "default": "NOW()"
+                },
+                "id": {
+                    "type": "BIGSERIAL",
+                    "primary": true
+                },
+                "is_internal": {
+                    "type": "BOOLEAN",
+                    "default": "FALSE"
+                },
+                "ticket_id": {
+                    "type": "BIGINT",
+                    "references": {
+                        "table": "tickets",
+                        "column": "id"
+                    },
+                    "on_delete": "CASCADE"
+                },
+                "updated_at": {
+                    "type": "TIMESTAMP",
+                    "default": "NOW()"
+                }
+            },
+            "indexes": {
+                "idx_ticket_comments_ticket_id": {
+                    "columns": [
+                        "ticket_id"
+                    ]
+                }
+            }
+        },
+        "tickets": {
+            "columns": {
+                "assigned_to": {
+                    "type": "BIGINT",
+                    "nullable": true,
+                    "references": {
+                        "table": "users",
+                        "column": "id"
+                    },
+                    "on_delete": "SET NULL"
+                },
+                "attachment_mime": {
+                    "type": "TEXT",
+                    "nullable": true
+                },
+                "attachment_original_name": {
+                    "type": "TEXT",
+                    "nullable": true
+                },
+                "attachment_path": {
+                    "type": "TEXT",
+                    "nullable": true
+                },
+                "attachment_size": {
+                    "type": "BIGINT",
+                    "nullable": true
+                },
+                "category_id": {
+                    "type": "BIGINT",
+                    "references": {
+                        "table": "categories",
+                        "column": "id"
+                    },
+                    "on_delete": "RESTRICT"
+                },
+                "closed_at": {
+                    "type": "TIMESTAMP",
+                    "nullable": true
+                },
+                "code": {
+                    "type": "VARCHAR(30)",
+                    "unique": true
+                },
+                "created_at": {
+                    "type": "TIMESTAMP",
+                    "default": "NOW()"
+                },
+                "description": {
+                    "type": "TEXT"
+                },
+                "id": {
+                    "type": "BIGSERIAL",
+                    "primary": true
+                },
+                "priority": {
+                    "type": "VARCHAR(20)",
+                    "default": "'medium'"
+                },
+                "requester_id": {
+                    "type": "BIGINT",
+                    "references": {
+                        "table": "users",
+                        "column": "id"
+                    },
+                    "on_delete": "RESTRICT"
+                },
+                "status": {
+                    "type": "VARCHAR(20)",
+                    "default": "'open'"
+                },
+                "subject": {
+                    "type": "VARCHAR(180)"
+                },
+                "updated_at": {
+                    "type": "TIMESTAMP",
+                    "default": "NOW()"
+                }
+            },
+            "indexes": {
+                "idx_tickets_assigned_to": {
+                    "columns": [
+                        "assigned_to"
+                    ]
+                },
+                "idx_tickets_priority": {
+                    "columns": [
+                        "priority"
+                    ]
+                },
+                "idx_tickets_requester": {
+                    "columns": [
+                        "requester_id"
+                    ]
+                },
+                "idx_tickets_status": {
+                    "columns": [
+                        "status"
+                    ]
+                }
+            }
+        },
+        "users": {
+            "columns": {
+                "active": {
+                    "type": "BOOLEAN",
+                    "default": "TRUE"
+                },
+                "avatar_path": {
+                    "type": "TEXT",
+                    "nullable": true
+                },
+                "created_at": {
+                    "type": "TIMESTAMP",
+                    "default": "NOW()"
+                },
+                "email": {
+                    "type": "VARCHAR(180)",
+                    "unique": true
+                },
+                "id": {
+                    "type": "BIGSERIAL",
+                    "primary": true
+                },
+                "name": {
+                    "type": "VARCHAR(120)"
+                },
+                "phone": {
+                    "type": "VARCHAR(30)",
+                    "nullable": true
+                },
+                "password_hash": {
+                    "type": "VARCHAR(255)"
+                },
+                "role": {
+                    "type": "VARCHAR(20)",
+                    "default": "'requester'"
+                },
+                "updated_at": {
+                    "type": "TIMESTAMP",
+                    "default": "NOW()"
+                }
+            },
+            "indexes": []
+        }
+    }
+}
