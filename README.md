@@ -75,4 +75,4 @@ Renomeacao de tabela ou coluna ainda aparece como `drop + create`, nao como `ren
 
 ## Documentacao completa
 
-A documentacao detalhada do servico esta em [docs/README.md](/C:/xampp/htdocs/help_desk_php/docs/README.md).
+A documentacao detalhada do servico esta em [docs/README.md](/docs/README.md).
